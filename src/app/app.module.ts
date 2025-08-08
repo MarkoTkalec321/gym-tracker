@@ -20,6 +20,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {MatChipsModule} from "@angular/material/chips";
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
