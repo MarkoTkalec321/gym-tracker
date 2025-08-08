@@ -1,0 +1,46 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary" class="dashboard-header">
+    <span>GymTracker Dashboard</span>
+    <span class="spacer"></span>
+    <button mat-button (click)="logout()">Logout</button>
+  </mat-toolbar>
+
+  <div class="dashboard-content">
+    <div class="welcome-section">
+      <h1>Welcome to GymTracker!</h1>
+      <p *ngIf="currentUser">Hello, {{ currentUser.email }}!</p>
+    </div>
+
+    <div class="subscription-section" *ngIf="subscription">
+      <mat-card class="subscription-card">
+        <mat-card-header>
+          <mat-card-title>Your Subscription</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Status:</strong> {{ subscription.subscription_status | titlecase }}</p>
+          <p *ngIf="subscription.current_period_end">
+            <strong>Next billing:</strong> {{ subscription.current_period_end * 1000 | date:'mediumDate' }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="actions-section">
+      <mat-card class="actions-card">
+        <mat-card-header>
+          <mat-card-title>Quick Actions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" routerLink="/pricing">
+              View Pricing
+            </button>
+            <button mat-raised-button color="accent" routerLink="/orders">
+              Order History
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="orders-container">
+  <mat-toolbar color="primary" class="orders-header">
+    <span>Order History</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/dashboard">Dashboard</button>
+    <button mat-button (click)="logout()">Logout</button>
+  </mat-toolbar>
+
+  <div class="orders-content">
+    <div class="orders-hero">
+      <h1>Your Order History</h1>
+      <p>View all your past purchases and transactions</p>
+    </div>
+
+    <div *ngIf="loading" class="loading-section">
+      <mat-spinner></mat-spinner>
+      <p>Loading your orders...</p>
+    </div>
+
+    <div *ngIf="!loading && orders.length === 0" class="empty-state">
+      <mat-icon class="empty-icon">shopping_cart</mat-icon>
+      <h2>No orders yet</h2>
+      <p>You haven't made any purchases yet. Check out our pricing to get started!</p>
+      <button mat-raised-button color="primary" routerLink="/pricing">
+        View Pricing
+      </button>
+    </div>
+
+    <div *ngIf="!loading && orders.length > 0" class="orders-list">
+      <mat-card *ngFor="let order of orders" class="order-card">
+        <mat-card-header>
+          <mat-card-title>Order #{{ order.order_id }}</mat-card-title>
+          <mat-card-subtitle>{{ order.order_date | date:'medium' }}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="order-details">
+            <div class="order-amount">
+              <span class="amount">€{{ (order.amount_total / 100).toFixed(2) }}</span>
+              <span class="currency">{{ order.currency | uppercase }}</span>
+            </div>
+            <div class="order-status">
+              <mat-chip [color]="getStatusColor(order.order_status)" selected>
+                {{ order.order_status | titlecase }}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="payment-info">
+            <p><strong>Payment Status:</strong> {{ order.payment_status | titlecase }}</p>
+            <p><strong>Payment Intent:</strong> {{ order.payment_intent_id }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </div>
+</div>

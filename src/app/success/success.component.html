@@ -1,0 +1,24 @@
+<div class="success-container">
+  <mat-toolbar color="primary" class="success-header">
+    <span>GymTracker</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/dashboard">Dashboard</button>
+  </mat-toolbar>
+
+  <div class="success-content">
+    <div class="success-card">
+      <mat-icon class="success-icon">check_circle</mat-icon>
+      <h1>Payment Successful!</h1>
+      <p>Thank you for your purchase. Your payment has been processed successfully.</p>
+      
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" routerLink="/dashboard">
+          Go to Dashboard
+        </button>
+        <button mat-stroked-button routerLink="/orders">
+          View Order History
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
