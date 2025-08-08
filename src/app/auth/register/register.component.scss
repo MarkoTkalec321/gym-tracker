@@ -1,0 +1,17 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin-top: 16px;
+}
+
+.success-message {
+  color: #388e3c;
+  margin-top: 16px;
+}
