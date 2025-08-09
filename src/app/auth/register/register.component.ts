@@ -9,7 +9,7 @@ import { SupabaseService } from '../../service/supabase.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
+  registerForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
   loading: boolean = false;
@@ -19,10 +19,19 @@ export class RegisterComponent {
     private supabaseService: SupabaseService,
     private router: Router
   ) {
+    this.initializeForm();
+  }
+
+  private initializeForm() {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    
+    // Reset any previous state
+    this.errorMessage = null;
+    this.successMessage = null;
+    this.loading = false;
   }
 
   async onSubmit() {

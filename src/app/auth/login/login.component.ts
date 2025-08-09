@@ -9,7 +9,7 @@ import { SupabaseService } from '../../service/supabase.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
   loading: boolean = false;
@@ -19,10 +19,19 @@ export class LoginComponent {
     private supabaseService: SupabaseService,
     private router: Router
   ) {
+    this.initializeForm();
+  }
+
+  private initializeForm() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
+    
+    // Reset any previous state
+    this.errorMessage = null;
+    this.successMessage = null;
+    this.loading = false;
   }
 
   async onSubmit() {
