@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SupabaseService } from '../../service/supabase.service'
+import { SupabaseService } from '../../service/supabase.service';
 
 @Component({
   selector: 'app-register',
@@ -43,5 +43,4 @@ export class RegisterComponent {
         this.loading = false;
       }
     }
-  }
 }

@@ -23,18 +23,6 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-    
-    // Reset form state when component initializes
-    this.resetForm();
-  }
-
-  resetForm() {
-    this.loginForm.reset();
-    this.loginForm.markAsUntouched();
-    this.loginForm.markAsPristine();
-    this.errorMessage = null;
-    this.successMessage = null;
-    this.loading = false;
   }
 
   async onSubmit() {
@@ -51,12 +39,8 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       } catch (error: any) {
         this.errorMessage = error.message || 'An error occurred during login.';
-        this.loading = false;
       } finally {
-        // Only reset loading if there was no error (success case is handled by navigation)
-        if (!this.errorMessage) {
-          this.loading = false;
-        }
+        this.loading = false;
       }
     }
   }
