@@ -1,0 +1,58 @@
+<h2 style="margin-bottom: 16px;">Add Clients</h2>
+
+<div *ngIf="loading" class="loading-container" style="text-align: center; margin: 24px 0;">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<div *ngIf="!loading && clients.length === 0" style="text-align: center; margin: 24px 0;">
+  No clients found.
+</div>
+
+<div *ngIf="!loading && clients.length > 0">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="first_name">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let client">{{ client.first_name }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="last_name">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let client">{{ client.last_name }}</td>
+    </ng-container>
+
+    <!-- Groups Column -->
+    <ng-container matColumnDef="groups">
+      <th mat-header-cell *matHeaderCellDef>Groups</th>
+      <td mat-cell *matCellDef="let client">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <mat-label>Select group</mat-label>
+          <mat-select [(value)]="client.selectedGroup">
+            <mat-option *ngFor="let group of getAvailableGroups(client)" [value]="group.id">
+              {{ group.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let client">
+        <button mat-raised-button color="primary" (click)="addClientToGroup(client)">
+          Add
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['first_name', 'last_name', 'groups', 'action']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['first_name', 'last_name', 'groups', 'action'];"></tr>
+  </table>
+</div>
+
+<div style="margin-top: 24px; text-align: right;">
+  <button mat-button (click)="close()">Close</button>
+</div>

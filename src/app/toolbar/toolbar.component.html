@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="dashboard-header">
+  <span>GymTracker Dashboard</span>
+  <span class="spacer"></span>
+
+  <!-- Show login/register if not logged in -->
+  <ng-container *ngIf="!isLoggedIn; else loggedIn">
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </ng-container>
+
+  <!-- Show logout if logged in -->
+  <ng-template #loggedIn>
+    <button mat-button (click)="logout()">Logout</button>
+  </ng-template>
+</mat-toolbar>
+
+<!-- Only show tabs if logged in -->
+<mat-tab-group *ngIf="isLoggedIn" [(selectedIndex)]="selectedTab" (selectedIndexChange)="onTabChange($event)">
+  <mat-tab *ngFor="let tab of tabs" [label]="tab.label"></mat-tab>
+</mat-tab-group>
+
+<router-outlet></router-outlet>

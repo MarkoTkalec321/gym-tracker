@@ -1,0 +1,28 @@
+<div class="social-container" style="display: flex; gap: 16px;">
+
+  <!-- Friends Sidebar -->
+  <div class="friends-list" style="width: 200px; border-right: 1px solid #ccc; padding-right: 8px;">
+    <h3>Your Friends</h3>
+    <ul style="list-style: none; padding: 0;">
+      <ng-container *ngIf="friends$ | async as friends">
+        <li *ngFor="let friend of friends"
+            (click)="openChat(friend)"
+            style="cursor: pointer; padding: 4px; border-radius: 4px; margin-bottom: 4px; background: #f0f0f0;">
+          {{ friend.name }} <small>({{ friend.role || 'user' }})</small>
+        </li>
+        <li *ngIf="!friends.length">
+          <i>No friends yet.</i>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <!-- Chat Box -->
+  <div class="chat-wrapper" style="flex: 1;">
+    <h2>Chat</h2>
+    <div #talkjsContainer style="width: 100%; height: 600px; border: 1px solid #ccc; border-radius: 8px;">
+      <i *ngIf="!chatbox">Select a friend to start chatting...</i>
+    </div>
+  </div>
+
+</div>

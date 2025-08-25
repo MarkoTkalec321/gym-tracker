@@ -1,0 +1,88 @@
+<div class="forum-container mat-elevation-z2">
+  <!-- Groups -->
+  <mat-nav-list class="groups">
+    <h3 mat-subheader>Groups</h3>
+    <ng-container *ngIf="groups$ | async as groups">
+      <mat-list-item *ngIf="groups.length === 0">
+        No groups available.
+      </mat-list-item>
+      <mat-list-item
+        *ngFor="let group of groups"
+        (click)="selectGroup(group)"
+        [ngClass]="{ 'selected': (selectedGroup$ | async)?.id === group.id }"
+      >
+        {{ group.name }}
+      </mat-list-item>
+    </ng-container>
+  </mat-nav-list>
+
+  <!-- Threads -->
+  <div class="threads">
+    <h3>Threads</h3>
+
+    <!-- Button to create thread -->
+    <ng-container *ngIf="selectedGroup$ | async as group">
+      <button mat-raised-button color="primary" (click)="openCreateThreadDialog(group)">
+        Create New Thread
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="selectedGroup$ | async as group">
+      <ng-container *ngIf="threads$ | async as threads">
+        <p *ngIf="threads.length === 0">No threads in this group.</p>
+
+        <mat-card *ngFor="let thread of threads" class="thread-card" (click)="openThreadDialog(thread)">
+          <mat-card-header>
+            <mat-card-title>{{ thread.title }}</mat-card-title>
+            <mat-card-subtitle>
+              {{ thread.author_name }} {{ thread.author_last_name }} ({{ thread.author_role }}) •
+              {{ thread.created_at | date:'short' }}
+            </mat-card-subtitle>
+            <app-thread-delete-dialog
+              [threadId]="thread.id"
+              (deleted)="onThreadDeleted($event)"
+            ></app-thread-delete-dialog>
+
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ thread.content }}</p>
+          </mat-card-content>
+        </mat-card>
+
+      </ng-container>
+    </ng-container>
+    <p *ngIf="!(selectedGroup$ | async)">Select a group to see threads.</p>
+  </div>
+
+  <!-- Members -->
+  <mat-nav-list class="members">
+    <h3 mat-subheader>Members</h3>
+    <ng-container *ngIf="selectedGroup$ | async as group">
+      <ng-container *ngIf="members$ | async as members">
+        <mat-list-item *ngIf="members.length === 0">
+          No members in this group.
+        </mat-list-item>
+
+        <mat-list-item *ngFor="let member of members"
+                       (contextmenu)="openMenu($event, member, menuTrigger)"
+                       [matMenuTriggerFor]="memberMenu"
+                       #menuTrigger="matMenuTrigger">
+          {{ member.name }}
+        </mat-list-item>
+      </ng-container>
+    </ng-container>
+    <mat-list-item *ngIf="!(selectedGroup$ | async)">
+      Select a group to see members.
+    </mat-list-item>
+  </mat-nav-list>
+
+  <!-- Context Menu -->
+  <mat-menu #memberMenu="matMenu">
+    <ng-container *ngIf="selectedMember$ | async as member">
+      <button mat-menu-item (click)="sendFriendRequest()">
+        Send Friend Request to {{ member.name }}
+      </button>
+    </ng-container>
+  </mat-menu>
+
+</div>

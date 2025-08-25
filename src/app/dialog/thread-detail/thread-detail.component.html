@@ -1,0 +1,48 @@
+<mat-card class="thread-detail-card">
+  <mat-card-header>
+    <mat-card-title>{{ threadTitle }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ threadContent }}</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-divider></mat-divider>
+
+<div class="comments-section">
+  <h4>Comments</h4>
+
+  <ng-container *ngIf="comments$ | async as comments">
+    <mat-list *ngIf="comments.length > 0; else noCommentsTpl">
+      <mat-list-item *ngFor="let c of comments">
+        <div class="comment-header">
+          <strong>{{ c.author_name }} {{ c.author_last_name }} ({{ c.author_role }})</strong>
+          <span class="timestamp">{{ c.created_at | date:'short' }}</span>
+        </div>
+        <p>{{ c.content }}</p>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+
+  <ng-template #noCommentsTpl>
+    <p>No comments yet.</p>
+  </ng-template>
+
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="add-comment">
+  <mat-form-field class="comment-input" appearance="outline">
+    <mat-label>Add a comment</mat-label>
+    <textarea matInput [formControl]="newComment" rows="2"></textarea>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="postComment()"
+    [disabled]="(postingState$ | async) || !newComment.value"
+  >
+    Post Comment
+  </button>
+</div>

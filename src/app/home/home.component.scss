@@ -1,0 +1,17 @@
+.exercise-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.exercise-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  .exercise-card {
+    flex: 1 1 300px;
+    max-width: 400px;
+  }
+}

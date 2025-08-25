@@ -1,0 +1,72 @@
+<section class="pricing-section" aria-labelledby="pricing-title">
+  <header class="pricing-header">
+    <h1 id="pricing-title">Choose your plan</h1>
+    <p class="subtitle">GymTracker offers flexible plans for all user levels.</p>
+  </header>
+
+  <div class="cards">
+    <mat-card
+      class="plan-card"
+      *ngFor="let p of plans"
+      [class.highlight]="p.highlight"
+    >
+      <mat-card-header>
+        <mat-card-title>{{ p.name }}</mat-card-title>
+        <mat-card-subtitle *ngIf="p.highlight">{{ p.highlight }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="price">{{ p.priceLabel }}</div>
+        <mat-divider></mat-divider>
+
+        <div class="subscribe-wrapper">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSubscribe(p)"
+            [disabled]="isCurrent(p) || isScheduled(p)"
+          >
+            {{ isCurrent(p) ? 'Current plan' : isScheduled(p) ? 'Scheduled' : 'Subscribe' }}
+          </button>
+        </div>
+
+        <ul class="features">
+          <li *ngFor="let f of p.features">{{ f }}</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
+
+<ng-template #confirmDialog let-data let-dialogRef="dialogRef">
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>{{ data.message }}</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <!-- Multiple options (used by openOptions) -->
+    <ng-container *ngIf="data.options?.length; else singleConfirm">
+      <button *ngFor="let option of data.options"
+              mat-button
+              [color]="option === 'Cancel' ? undefined : 'primary'"
+              (click)="dialogRef.close(option)">
+        {{ option }}
+      </button>
+    </ng-container>
+
+    <!-- Single Confirm/Cancel (used by openConfirm) -->
+    <ng-template #singleConfirm>
+      <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+      <button mat-raised-button color="primary" (click)="dialogRef.close(true)">Confirm</button>
+    </ng-template>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+<!--<ng-template #confirmDialog let-data let-dialogRef="dialogRef">
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>{{ data.message }}</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+    <button mat-raised-button color="primary" (click)="dialogRef.close(true)">Confirm</button>
+  </mat-dialog-actions>
+</ng-template>-->

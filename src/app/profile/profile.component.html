@@ -1,0 +1,14 @@
+<!-- Existing membership info -->
+<div *ngIf="membership">
+  <p><strong>Membership Type:</strong> {{ membership.type }}</p>
+  <p><strong>Active:</strong> {{ membership.is_active ? 'Yes' : 'No' }}</p>
+  <p><strong>Start Date:</strong> {{ membership.start_date | date:'medium' }}</p>
+  <p><strong>End Date:</strong> {{ membership.end_date | date:'medium' }}</p>
+  <p><strong>Price:</strong> ${{ membership.price }}</p>
+
+  <!-- Downgrade scheduled -->
+  <p *ngIf="membership.cancel_scheduled || (membership.scheduled_plan && membership.scheduled_plan !== membership.type)">
+    Downgrade scheduled – access until {{ membership.end_date | date:'medium' }}.
+    Scheduled plan: {{ membership.scheduled_plan }}
+  </p>
+</div>

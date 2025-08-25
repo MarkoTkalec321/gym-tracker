@@ -1,0 +1,45 @@
+<!-- coach.component.html -->
+<div class="groups-section">
+  <h2>Groups</h2>
+
+  <button mat-raised-button color="primary" (click)="openCreateGroupDialog()">
+    + Create Group
+  </button>
+
+  <button mat-raised-button color="accent" (click)="openAddClientsDialog()">
+    Add Clients
+  </button>
+
+  <!-- Show message if no groups -->
+  <div *ngIf="(groups$ | async)?.length === 0; else groupsList">
+    No groups created yet.
+  </div>
+
+  <button mat-raised-button color="primary" (click)="openCreateTrainingSessionDialog()">
+    + Create Training Session
+  </button>
+
+
+  <!-- Groups list -->
+  <ng-template #groupsList>
+    <div *ngFor="let group of groups$ | async" class="group-item">
+      <span>{{ group.name }}</span>
+      <button mat-button color="accent" (click)="openGroupClients(group.id)">
+        View Group Clients
+      </button>
+      <button mat-button color="warn" (click)="openTrainingSessionsDialogView(group.id)">
+        View Training Sessions
+      </button>
+      <span> {{ group.clientCount || 0 }} / {{ group.capacity || '∞' }} </span>
+    </div>
+  </ng-template>
+
+  <h2>Calendar</h2>
+  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+
+
+
+
+
+
+</div>

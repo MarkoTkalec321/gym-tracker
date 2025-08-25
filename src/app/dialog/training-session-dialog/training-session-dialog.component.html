@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>Create Training Session</h2>
+<form [formGroup]="sessionForm" (ngSubmit)="submit()">
+
+  <mat-form-field appearance="fill">
+    <mat-label>Session Name</mat-label>
+    <input matInput formControlName="name" placeholder="e.g. Morning Workout">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Group</mat-label>
+    <mat-select formControlName="group_id">
+      <mat-option *ngFor="let group of groups" [value]="group.id">
+        {{ group.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <input
+      type="text"
+      placeholder="Select gym"
+      aria-label="Gym"
+      matInput
+      [formControl]="gymCtrl"
+      [matAutocomplete]="auto"
+    >
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onGymSelected($event.option.value)"
+      [displayWith]="displayGym"
+    >
+      <mat-option *ngFor="let gym of filteredGyms | async" [value]="gym">
+        {{ gym.name }} – {{ gym.address }}
+      </mat-option>
+
+    </mat-autocomplete>
+  </mat-form-field>
+
+
+
+
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Start Time</mat-label>
+    <input matInput type="time" formControlName="start_time">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Duration (minutes)</mat-label>
+    <input matInput type="number" formControlName="duration">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Exercises (optional)</mat-label>
+    <mat-select formControlName="exercise_names" multiple>
+      <mat-option *ngFor="let exercise of exercises" [value]="exercise.name">
+        {{ exercise.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="close()">Close</button>
+    <button mat-raised-button color="primary" type="submit">Create</button>
+  </div>
+</form>

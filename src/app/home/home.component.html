@@ -1,0 +1,69 @@
+<div class="exercise-container" style="padding: 16px;">
+
+  <!-- Search Bar -->
+  <mat-form-field appearance="fill" style="width: 100%; margin-bottom: 16px;">
+    <mat-label>Search Exercises</mat-label>
+    <input matInput placeholder="Type exercise name..." [(ngModel)]="searchTerm" (input)="filterExercises()">
+  </mat-form-field>
+
+  <!-- Filters -->
+  <div class="exercise-filters" fxLayout="row" fxLayoutGap="16px" fxLayoutWrap style="margin-bottom: 24px;">
+    <!-- Type Filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select [(value)]="selectedType" (selectionChange)="filterExercises()">
+        <mat-option value="">All Types</mat-option>
+        <mat-option *ngFor="let t of types" [value]="t">{{ t }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Muscle Filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Muscle</mat-label>
+      <mat-select [(value)]="selectedMuscle" (selectionChange)="filterExercises()">
+        <mat-option value="">All Muscles</mat-option>
+        <mat-option *ngFor="let m of muscles" [value]="m">{{ m }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Equipment Filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Equipment</mat-label>
+      <mat-select [(value)]="selectedEquipment" (selectionChange)="filterExercises()">
+        <mat-option value="">All Equipment</mat-option>
+        <mat-option *ngFor="let eq of equipment" [value]="eq">{{ eq }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Difficulty Filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Difficulty</mat-label>
+      <mat-select [(value)]="selectedDifficulty" (selectionChange)="filterExercises()">
+        <mat-option value="">All Levels</mat-option>
+        <mat-option *ngFor="let d of difficulties" [value]="d">{{ d }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Exercises List -->
+  <div class="exercise-list" fxLayout="row" fxLayoutGap="16px" fxLayoutWrap>
+    <mat-card class="exercise-card" *ngFor="let ex of filteredExercises">
+      <mat-card-header (click)="toggleInstructions(ex)" style="cursor: pointer;">
+        <mat-card-title>{{ ex.name }}</mat-card-title>
+        <button (click)="addToFavorites(ex); $event.stopPropagation()">❤️ Favorite</button>
+        <mat-card-subtitle>{{ ex.type | titlecase }} - {{ ex.muscle | titlecase }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <!-- Show instructions only when clicked -->
+      <mat-card-content *ngIf="expandedExerciseId === ex.id">
+        <p><strong>Instructions:</strong> {{ ex.instructions }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="filteredExercises.length === 0" style="margin-top: 16px; font-size: 16px; color: gray;">
+      No exercises match your search/filter criteria.
+    </div>
+  </div>
+
+
+</div>
