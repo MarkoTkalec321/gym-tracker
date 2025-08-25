@@ -106,7 +106,6 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     CometChatConversationsWithMessages,
     FormsModule,
     MatProgressBarModule,
-    MatListModule
   ],
   providers: [
     {
