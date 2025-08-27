@@ -55,15 +55,30 @@ export class ToolbarComponent implements OnInit {
     this.tabs = childRoutes
       .filter(r => r.component)
       .filter(r => this.isRouteAllowed(r.path!))
-      .map(r => ({ route: r.path!, label: this.capitalize(r.path!) }));
+      .map(r => ({
+        route: r.path!,
+        label: this.getCustomLabel(r.path!)
+      }));
+  }
+
+  private getCustomLabel(path: string): string {
+    // Custom labels for specific routes
+    const customLabels: { [key: string]: string } = {
+      'coach': 'Schedule',
+      'admin': 'Admin Panel',
+      'social': 'Community',
+      // Add more custom labels as needed
+    };
+
+    return customLabels[path] || this.capitalize(path);
   }
 
   private isRouteAllowed(path: string): boolean {
     if (this.membershipType === 'pro') {
-      return !['coach', 'admin', 'social'].includes(path);
+      return !['admin', 'social'].includes(path);
     }
     if (this.membershipType === 'elite') {
-      return !['coach', 'admin'].includes(path);
+      return !['admin'].includes(path);
     }
     return true; // fallback: allow all
   }

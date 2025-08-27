@@ -1,9 +1,227 @@
+// Admin Container Styling
 .admin-container {
-  table {
-    width: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  padding: 24px;
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  width: 75%; // ← ADD THIS LINE
+  margin: 0 auto; // ← ADD THIS LINE to center it
+  box-sizing: border-box;
+
+  h2 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    text-align: center;
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Progress Bar Styling
+.mat-mdc-progress-bar {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+
+  .mdc-linear-progress__bar-inner {
+    background: linear-gradient(90deg, #ff6b35, #f7931e) !important;
+    border-radius: 8px;
+  }
+}
+
+// Table Styling
+.mat-mdc-table {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-bottom: 24px;
+
+  // Header Row
+  .mat-mdc-header-row {
+    background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+
+    .mat-mdc-header-cell {
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 24px;
+      border-bottom: none !important;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
   }
 
-  button {
-    min-width: 80px;
+  // Data Rows
+  .mat-mdc-row {
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(255, 107, 53, 0.2);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .mat-mdc-cell {
+      color: #ffffff;
+      padding: 16px 24px;
+      font-size: 0.95rem;
+      border-bottom: none !important;
+    }
   }
+
+  // ID Column
+  .mat-column-id {
+    width: 80px;
+    font-weight: 600;
+    color: #f7931e !important;
+  }
+
+  // Name Column
+  .mat-column-name {
+    font-weight: 500;
+    min-width: 200px;
+  }
+
+  // Email/Date Column
+  .mat-column-email {
+    color: #cccccc;
+    min-width: 150px;
+  }
+
+  // Actions Column
+  .mat-column-actions {
+    width: 120px;
+    text-align: center;
+  }
+}
+
+// Delete Button Styling
+.mat-mdc-raised-button {
+  &.mat-warn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, #c0392b, #a93226) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+  }
+}
+
+// Empty State Styling
+p {
+  text-align: center;
+  color: #cccccc;
+  font-size: 1.2rem;
+  margin-top: 48px;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 16px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+  }
+
+  .mat-mdc-table {
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 12px 16px;
+      font-size: 0.9rem;
+    }
+
+    // Hide ID column on mobile
+    .mat-column-id {
+      display: none;
+    }
+  }
+
+  .mat-mdc-raised-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-container {
+    padding: 12px;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+
+  .mat-mdc-table {
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+    }
+
+    // Stack table content on very small screens
+    .mat-column-email {
+      display: none;
+    }
+  }
+}
+
+// Loading Animation
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.mat-mdc-progress-bar {
+  animation: pulse 2s infinite;
+}
+
+// Elevation Override
+.mat-elevation-z8 {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
 }

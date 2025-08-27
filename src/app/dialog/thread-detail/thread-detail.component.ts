@@ -11,9 +11,13 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
   styleUrls: ['./thread-detail.component.scss']
 })
 export class ThreadDetailComponent implements OnInit {
-  @Input() threadId!: string;
+  /*@Input() threadId!: string;
   @Input() threadTitle!: string;
-  @Input() threadContent!: string;
+  @Input() threadContent!: string;*/
+  // Remove @Input() decorators - they won't work in dialogs
+  threadId!: string;
+  threadTitle!: string;
+  threadContent!: string;
 
   newComment = new FormControl('');
 
@@ -72,4 +76,5 @@ export class ThreadDetailComponent implements OnInit {
       this.posting$.next(false);
     }
   }
+
 }

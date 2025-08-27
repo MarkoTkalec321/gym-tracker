@@ -1,0 +1,480 @@
+// Social Chat Component Styles - Gym Tracker App
+// Modern fitness-focused design with Angular Material integration
+
+// Color Variables
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+$accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+$success-color: #28a745;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$dark-bg: #1a1a2e;
+$card-bg: #16213e;
+$text-primary: #ffffff;
+$text-secondary: #b8c5d6;
+$border-color: #2d3748;
+$hover-bg: rgba(255, 255, 255, 0.1);
+
+// Main Container
+.social-container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background: $dark-bg;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  color: $text-primary;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    gap: 16px;
+  }
+}
+
+// Friends Sidebar Container
+.friends-sidebar {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: calc(100vh - 48px); // Account for container padding
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    order: 2;
+    flex-direction: row;
+    gap: 16px;
+
+    .friends-list, .notifications-section {
+      flex: 1;
+      width: 50%;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    width: 240px;
+  }
+}
+
+// Friends List
+.friends-list {
+  flex: 1;
+  background: $card-bg;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $primary-gradient;
+  }
+
+  h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: $primary-gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: $accent-gradient;
+      border-radius: 2px;
+    }
+  }
+
+  // Friends List Content
+  .friends-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+
+    li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: $primary-gradient;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: -1;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+
+        &::before {
+          left: 0;
+          opacity: 0.1;
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      small {
+        color: $text-secondary;
+        font-size: 0.8rem;
+        font-weight: 400;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Empty state styling
+      i {
+        color: $text-secondary;
+        font-style: italic;
+        text-align: center;
+        display: block;
+        padding: 20px 0;
+      }
+    }
+  }
+}
+
+// Notifications Section
+.notifications-section {
+  flex: 1;
+  background: $card-bg;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $secondary-gradient;
+  }
+
+  h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: $secondary-gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: $accent-gradient;
+      border-radius: 2px;
+    }
+  }
+
+  .notifications-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+
+    .notification-item {
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      background: rgba(255, 195, 77, 0.1);
+      border: 1px solid rgba(255, 195, 77, 0.3);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: $warning-color;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 195, 77, 0.2);
+        border-color: rgba(255, 195, 77, 0.5);
+      }
+
+      strong {
+        color: $text-primary;
+        font-weight: 600;
+      }
+
+      .notification-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 12px;
+
+        .accept-btn, .reject-btn {
+          padding: 8px 16px;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
+
+        .accept-btn {
+          background: $success-color;
+          color: white;
+
+          &:hover {
+            background: darken($success-color, 10%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+          }
+        }
+
+        .reject-btn {
+          background: $danger-color;
+          color: white;
+
+          &:hover {
+            background: darken($danger-color, 10%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+          }
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .empty-state {
+      color: $text-secondary;
+      font-style: italic;
+      text-align: center;
+      display: block;
+      padding: 20px 0;
+    }
+  }
+}
+
+// Chat Wrapper
+.chat-wrapper {
+  flex: 1;
+  height: calc(100vh - 48px); // Account for container padding
+  display: flex;
+  flex-direction: column;
+  background: $card-bg;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $accent-gradient;
+  }
+
+  h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: $accent-gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: $primary-gradient;
+      border-radius: 2px;
+    }
+  }
+
+  // TalkJS Container
+  .chat-container {
+    flex: 1;
+    min-height: 0; // Important for flex child to shrink properly
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid $border-color !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+
+    // Empty state styling
+    i {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: $text-secondary;
+      font-style: italic;
+      font-size: 1.1rem;
+      text-align: center;
+
+      &::before {
+        content: '💬';
+        display: block;
+        font-size: 3rem;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .social-container {
+    flex-direction: column;
+
+    .friends-sidebar {
+      width: 100%;
+      order: 2;
+      height: 60vh; // Set specific height on mobile
+      flex-direction: row;
+      gap: 16px;
+
+      .friends-list, .notifications-section {
+        flex: 1;
+        width: 50%;
+      }
+    }
+
+    .chat-wrapper {
+      order: 1;
+      height: 40vh;
+
+      .chat-container {
+        height: 100% !important;
+      }
+    }
+  }
+}
+
+// Loading States
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  &::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Focus states for accessibility
+button:focus,
+li[role="button"]:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}

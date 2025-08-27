@@ -37,6 +37,43 @@ export class ForumComponent {
     this.members$ = this.forumService.members$;
   }
 
+  // In your component.ts file
+  ngAfterViewInit() {
+    // Force white color for group names
+    setTimeout(() => {
+      const groupItems = document.querySelectorAll('.groups .mat-mdc-list-item');
+      groupItems.forEach(item => {
+        (item as HTMLElement).style.color = 'white';
+        const primaryText = item.querySelector('.mdc-list-item__primary-text');
+        if (primaryText) {
+          (primaryText as HTMLElement).style.color = 'white';
+        }
+      });
+
+      // Force white color for "Select a group to see threads"
+      const threadMessage = document.querySelector('.threads > p');
+      if (threadMessage) {
+        (threadMessage as HTMLElement).style.color = 'white';
+      }
+
+      // Force white color for member names
+      const memberItems = document.querySelectorAll('.members .mat-mdc-list-item');
+      memberItems.forEach(item => {
+        (item as HTMLElement).style.color = 'white';
+        const primaryText = item.querySelector('.mdc-list-item__primary-text');
+        if (primaryText) {
+          (primaryText as HTMLElement).style.color = 'white';
+        }
+      });
+
+      // Force white color for "Select a group to see members"
+      const memberMessage = document.querySelector('.members > .mat-mdc-list-item');
+      if (memberMessage) {
+        (memberMessage as HTMLElement).style.color = 'white';
+      }
+    });
+  }
+
   selectGroup(group: Group) {
     this.forumService.selectGroup(group);
   }
@@ -60,6 +97,8 @@ export class ForumComponent {
   }
 
   openThreadDialog(thread: Thread) {
+    console.log('Opening thread dialog for:', thread);
+
     this.dialog.open(ThreadDetailComponent, {
       width: '90vw',
       maxWidth: '1200px',

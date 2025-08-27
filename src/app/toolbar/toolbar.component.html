@@ -1,22 +1,55 @@
 <mat-toolbar color="primary" class="dashboard-header">
-  <span>GymTracker Dashboard</span>
-  <span class="spacer"></span>
+  <div class="toolbar-content">
+    <div class="brand-section">
+      <mat-icon class="brand-icon">fitness_center</mat-icon>
+      <span class="brand-title">GymTracker</span>
+      <span class="brand-subtitle">Dashboard</span>
+    </div>
 
-  <!-- Show login/register if not logged in -->
-  <ng-container *ngIf="!isLoggedIn; else loggedIn">
-    <button mat-button routerLink="/login">Login</button>
-    <button mat-button routerLink="/register">Register</button>
-  </ng-container>
+    <span class="spacer"></span>
 
-  <!-- Show logout if logged in -->
-  <ng-template #loggedIn>
-    <button mat-button (click)="logout()">Logout</button>
-  </ng-template>
+    <div class="auth-section">
+      <!-- Show login/register if not logged in -->
+      <ng-container *ngIf="!isLoggedIn; else loggedIn">
+        <button mat-raised-button color="accent" routerLink="/login" class="auth-btn login-btn">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+        <button mat-stroked-button routerLink="/register" class="auth-btn register-btn">
+          <mat-icon>person_add</mat-icon>
+          Register
+        </button>
+      </ng-container>
+
+      <!-- Show logout if logged in -->
+      <ng-template #loggedIn>
+        <div class="user-info" *ngIf="membershipType">
+          <span class="membership-badge" [class]="'membership-' + membershipType">
+            {{membershipType | uppercase}}
+          </span>
+        </div>
+        <button mat-raised-button color="warn" (click)="logout()" class="auth-btn logout-btn">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </ng-template>
+    </div>
+  </div>
 </mat-toolbar>
 
 <!-- Only show tabs if logged in -->
-<mat-tab-group *ngIf="isLoggedIn" [(selectedIndex)]="selectedTab" (selectedIndexChange)="onTabChange($event)">
-  <mat-tab *ngFor="let tab of tabs" [label]="tab.label"></mat-tab>
+<mat-tab-group *ngIf="isLoggedIn"
+               [(selectedIndex)]="selectedTab"
+               (selectedIndexChange)="onTabChange($event)"
+               class="main-tabs"
+               animationDuration="300ms">
+  <mat-tab *ngFor="let tab of tabs" [label]="tab.label">
+    <ng-template mat-tab-label>
+      <span class="tab-label">{{tab.label}}</span>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
 
-<router-outlet></router-outlet>
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

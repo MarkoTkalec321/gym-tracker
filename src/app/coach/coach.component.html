@@ -1,45 +1,49 @@
-<!-- coach.component.html -->
-<div class="groups-section">
-  <h2>Groups</h2>
+<!-- Coach Component HTML -->
+<div class="coach-container">
 
-  <button mat-raised-button color="primary" (click)="openCreateGroupDialog()">
-    + Create Group
-  </button>
+  <!-- Only show coach management tools if user is a coach -->
+  <div *ngIf="isCoach" class="coach-management-section">
+    <h2>Coach Management</h2>
 
-  <button mat-raised-button color="accent" (click)="openAddClientsDialog()">
-    Add Clients
-  </button>
+    <!-- Group Management -->
+    <div class="management-card">
+      <h3>Group Management</h3>
+      <button (click)="openCreateGroupDialog()">Create New Group</button>
+      <button (click)="openAddClientsDialog()">Add Clients to Groups</button>
+    </div>
 
-  <!-- Show message if no groups -->
-  <div *ngIf="(groups$ | async)?.length === 0; else groupsList">
-    No groups created yet.
+    <!-- Training Session Management -->
+    <div class="management-card">
+      <h3>Training Sessions</h3>
+      <button (click)="openCreateTrainingSessionDialog()">Create Training Session</button>
+    </div>
+
+    <!-- Groups List (only for coaches) - FIXED SYNTAX -->
+    <ng-container *ngIf="groups$ | async as groups">
+      <div class="groups-section" *ngIf="groups.length > 0">
+        <h3>Your Groups</h3>
+        <div *ngFor="let group of groups" class="group-card">
+          <h4>{{ group.name }}</h4>
+          <div class="group-info">
+            <p>
+              <mat-icon>people</mat-icon>
+              Clients: {{ group.clientCount }}
+              <span *ngIf="group.capacity">/ {{ group.capacity }}</span>
+            </p>
+          </div>
+          <div class="group-actions">
+            <button (click)="openGroupClients(group.id)">View Clients</button>
+            <button (click)="openTrainingSessionsDialogView(group.id)">View Sessions</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
-  <button mat-raised-button color="primary" (click)="openCreateTrainingSessionDialog()">
-    + Create Training Session
-  </button>
-
-
-  <!-- Groups list -->
-  <ng-template #groupsList>
-    <div *ngFor="let group of groups$ | async" class="group-item">
-      <span>{{ group.name }}</span>
-      <button mat-button color="accent" (click)="openGroupClients(group.id)">
-        View Group Clients
-      </button>
-      <button mat-button color="warn" (click)="openTrainingSessionsDialogView(group.id)">
-        View Training Sessions
-      </button>
-      <span> {{ group.clientCount || 0 }} / {{ group.capacity || '∞' }} </span>
-    </div>
-  </ng-template>
-
-  <h2>Calendar</h2>
-  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-
-
-
-
-
+  <!-- Calendar Section (visible to everyone) -->
+  <div class="calendar-section">
+    <h2>Training Schedule</h2>
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+  </div>
 
 </div>

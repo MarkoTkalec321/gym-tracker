@@ -1,0 +1,236 @@
+// Create Training Session Dialog Styling - Gym Theme
+// Dark gradient background with orange/blue accents
+
+// Dialog container styling
+::ng-deep .mat-mdc-dialog-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  overflow: hidden;
+  padding: 0;
+}
+
+// Dialog title styling
+.mat-mdc-dialog-title {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding: 24px 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Form styling
+form {
+  padding: 0 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// Form field styling
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+
+  .mat-mdc-form-field-wrapper {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 4px 8px;
+  }
+
+  .mat-mdc-form-field-label {
+    color: #b0b0b0 !important;
+  }
+
+  .mat-mdc-input-element {
+    color: #ffffff !important;
+  }
+
+  .mat-mdc-select-value {
+    color: #ffffff !important;
+  }
+
+  .mat-mdc-form-field-underline {
+    background-color: rgba(255, 107, 53, 0.3);
+  }
+
+  &.mat-mdc-form-field-focused {
+    .mat-mdc-form-field-underline {
+      background-color: #ff6b35;
+    }
+
+    .mat-mdc-form-field-label {
+      color: #ff6b35 !important;
+    }
+  }
+}
+
+// Select dropdown styling
+::ng-deep .mat-mdc-select-panel {
+  background: rgba(45, 45, 45, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+
+  .mat-mdc-option {
+    color: #ffffff;
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.1);
+    }
+
+    &.mat-mdc-option-selected {
+      background: rgba(255, 107, 53, 0.2);
+      color: #ff6b35;
+    }
+  }
+}
+
+// Autocomplete styling
+::ng-deep .mat-mdc-autocomplete-panel {
+  background: rgba(45, 45, 45, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+
+  .mat-mdc-option {
+    color: #ffffff;
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.1);
+    }
+
+    &.mat-mdc-option-active {
+      background: rgba(255, 107, 53, 0.15);
+    }
+  }
+}
+
+// Datepicker styling
+::ng-deep .mat-mdc-datepicker-content {
+  background: rgba(45, 45, 45, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+
+  .mat-mdc-calendar {
+    color: #ffffff;
+
+    .mat-mdc-button {
+      color: #000000;
+    }
+
+    .mat-mdc-calendar-body-selected {
+      background-color: #ff6b35;
+      color: #000000;
+    }
+
+    .mat-mdc-calendar-body-today:not(.mat-mdc-calendar-body-selected) {
+      border-color: #ff6b35;
+    }
+  }
+}
+
+// Time input styling
+input[type="time"] {
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
+
+// Number input styling
+input[type="number"] {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    filter: invert(1);
+  }
+}
+
+// Dialog actions styling
+.mat-mdc-dialog-actions {
+  padding: 16px 24px 24px;
+  justify-content: flex-end;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+
+  .mat-mdc-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #000000;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-left: 8px;
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.2);
+      border-color: rgba(255, 107, 53, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  .mat-mdc-raised-button {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  ::ng-deep .mat-mdc-dialog-container {
+    margin: 16px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .mat-mdc-dialog-title {
+    font-size: 1.3rem;
+    padding: 20px 16px 12px;
+  }
+
+  form {
+    padding: 0 16px 12px;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 12px 16px 20px;
+  }
+}
+
+// Animation for dialog entrance
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  animation: dialogSlideIn 0.3s ease-out;
+}

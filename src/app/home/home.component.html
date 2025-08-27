@@ -47,16 +47,35 @@
 
   <!-- Exercises List -->
   <div class="exercise-list" fxLayout="row" fxLayoutGap="16px" fxLayoutWrap>
-    <mat-card class="exercise-card" *ngFor="let ex of filteredExercises">
+    <mat-card
+      class="exercise-card"
+      *ngFor="let ex of filteredExercises; trackBy: trackByExerciseId"
+      [class.expanded]="ex.isExpanded">
+
       <mat-card-header (click)="toggleInstructions(ex)" style="cursor: pointer;">
         <mat-card-title>{{ ex.name }}</mat-card-title>
         <button (click)="addToFavorites(ex); $event.stopPropagation()">❤️ Favorite</button>
         <mat-card-subtitle>{{ ex.type | titlecase }} - {{ ex.muscle | titlecase }}</mat-card-subtitle>
       </mat-card-header>
 
-      <!-- Show instructions only when clicked -->
-      <mat-card-content *ngIf="expandedExerciseId === ex.id">
-        <p><strong>Instructions:</strong> {{ ex.instructions }}</p>
+      <!-- Show instructions only when expanded -->
+      <mat-card-content *ngIf="ex.isExpanded">
+        <div class="exercise-details">
+          <div class="detail-row">
+            <span class="detail-label">Equipment:</span>
+            <span class="detail-value">{{ ex.equipment }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Difficulty:</span>
+            <span class="detail-value difficulty-badge" [attr.data-difficulty]="ex.difficulty">
+              {{ ex.difficulty }}
+            </span>
+          </div>
+          <div class="instructions">
+            <span class="detail-label">Instructions:</span>
+            <p class="instructions-text">{{ ex.instructions }}</p>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
 
@@ -64,6 +83,4 @@
       No exercises match your search/filter criteria.
     </div>
   </div>
-
-
 </div>

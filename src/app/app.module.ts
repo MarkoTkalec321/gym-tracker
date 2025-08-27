@@ -50,6 +50,7 @@ import { SocialComponent } from './social/social.component';
 import {CometChatConversationsWithMessages} from "@cometchat/chat-uikit-angular";
 import { AdminComponent } from './admin/admin.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     ThreadDeleteDialogComponent,
     ThreadDetailComponent,
     SocialComponent,
-    AdminComponent
+    AdminComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

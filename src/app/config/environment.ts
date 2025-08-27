@@ -15,6 +15,7 @@ export const environment = {
 
   exercises: {
     apiUrl: 'https://api.api-ninjas.com/v1/exercises',
-    apiKey: 'yM8G7AsVRsV0VJa31ze4gw==4RjIjQgg7Gq2MsB3'
+    apiKey: 'wjx3XFBO5ETE0fLjcbjqYw==V8UC0R0OIZW5nABu'
+    //apiKey: 'yM8G7AsVRsV0VJa31ze4gw==4RjIjQgg7Gq2MsB3'
   }
 };

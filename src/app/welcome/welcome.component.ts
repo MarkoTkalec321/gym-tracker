@@ -87,9 +87,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       });
 
       if (choice === 'Register') {
-        await this.router.navigate(['/toolbar/register']);
+        await this.router.navigate(['/register']);
       } else if (choice === 'Login') {
-        await this.router.navigate(['/toolbar/login']);
+        await this.router.navigate(['/login']);
       }
 
       return;

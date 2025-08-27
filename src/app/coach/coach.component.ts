@@ -18,6 +18,16 @@ import { CalendarOptions, EventInput, Calendar } from "@fullcalendar/core";
 import { FullCalendarComponent } from "@fullcalendar/angular";
 import { TrainingSession } from "../model/training-session.model";
 
+// Add this at the top of your component file, before the @Component decorator
+interface CalendarEventExtendedProps {
+  groupId: string;
+  sessionId: string;
+  gym?: string;
+  sessionName?: string;
+  groupName: string;
+  startTime: string;
+  endTime: string;
+}
 @Component({
   selector: 'app-coach',
   templateUrl: './coach.component.html',
@@ -31,22 +41,27 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // State management
   private readonly destroy$ = new Subject<void>();
-  private readonly _groups$ = new BehaviorSubject<Group[]>([]);
+  // In your component class
+  private readonly _groups$ = new BehaviorSubject<Group[]>([]); // Initialize with empty array
   readonly groups$ = this._groups$.asObservable();
 
   // Track calendar initialization
   private isCalendarInitialized = false;
   private pendingEvents: EventInput[] = [];
 
+  userRole: string | null = null;
+  isCoach = false;
+
   // Calendar configuration
+// Calendar configuration - FIXED PLUGINS
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
-    initialView: 'dayGridMonth',
+    initialView: 'dayGridMonth', // Make sure this matches one of your plugin views
     weekends: true,
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,dayGridWeek'
+      right: 'dayGridMonth,dayGridWeek' // Make sure these match your plugins
     },
     events: [],
     eventTimeFormat: {
@@ -54,7 +69,23 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
       minute: '2-digit',
       hour12: false
     },
-    displayEventEnd: true
+    displayEventEnd: true,
+
+    // Updated eventContent with type casting
+    eventContent: (arg) => {
+      const event = arg.event;
+      const extendedProps = event.extendedProps as CalendarEventExtendedProps;
+
+      return {
+        html: `
+        <div class="custom-event">
+          <div class="event-group">${extendedProps.groupName}</div>
+          <div class="event-time">${extendedProps.startTime} - ${extendedProps.endTime}</div>
+          <div class="event-details">${extendedProps.sessionName || 'Training'}</div>
+        </div>
+      `
+      };
+    }
   };
 
   constructor(
@@ -65,9 +96,10 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.initializeForm();
     this.loadInitialData();
+    await this.loadUserRole();
   }
 
   ngAfterViewInit(): void {
@@ -179,15 +211,34 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
 
       const endDateTime = this.calculateEndTime(startDateTime, session.duration);
 
+      // Format time for display
+      const startTime = this.formatTime(startDateTime);
+      const endTime = this.formatTime(endDateTime);
+
+      // Create HTML content for the event
+      const eventContent = `
+      <div class="custom-event">
+        <div class="event-group">${group.name}</div>
+        <div class="event-time">${startTime} - ${endTime}</div>
+        <div class="event-details">
+          ${session.name || 'Training'}${session.gym ? ' @ ' + session.gym : ''}
+        </div>
+      </div>
+    `;
+
       return {
         id: session.id,
-        title: `${group.name} - ${session.name || 'Training'}${session.gym ? ' @ ' + session.gym : ''}`,
+        title: `${group.name} - ${session.name || 'Training'}`,
         start: startDateTime.toISOString(),
         end: endDateTime.toISOString(),
         extendedProps: {
           groupId: group.id,
           sessionId: session.id,
-          gym: session.gym
+          gym: session.gym,
+          sessionName: session.name,
+          groupName: group.name,
+          startTime: startTime,
+          endTime: endTime
         }
       };
 
@@ -195,6 +246,14 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
       console.error('Failed to convert session to event:', error);
       return null;
     }
+  }
+
+  private formatTime(date: Date): string {
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
   }
 
   private parseDateTime(dateStr: string, timeStr: string): Date | null {
@@ -428,6 +487,23 @@ export class CoachComponent implements OnInit, OnDestroy, AfterViewInit {
       // If calendar not ready, add to pending events
       this.pendingEvents.push(event);
       console.log('Calendar not ready, event added to pending queue');
+    }
+  }
+
+  private async loadUserRole(): Promise<void> {
+    try {
+      const user = await this.authService.getUser();
+      if (!user) {
+        console.error('No logged in user');
+        return;
+      }
+
+      const userProfile = await this.supabaseService.getUserProfile(user.id);
+      this.userRole = userProfile.role;
+      this.isCoach = this.userRole === 'coach'; // Or whatever role indicates a coach
+
+    } catch (error) {
+      console.error('Failed to load user role:', error);
     }
   }
 }

@@ -1,28 +1,47 @@
-<div class="social-container" style="display: flex; gap: 16px;">
-
+<div class="social-container">
   <!-- Friends Sidebar -->
-  <div class="friends-list" style="width: 200px; border-right: 1px solid #ccc; padding-right: 8px;">
-    <h3>Your Friends</h3>
-    <ul style="list-style: none; padding: 0;">
-      <ng-container *ngIf="friends$ | async as friends">
-        <li *ngFor="let friend of friends"
-            (click)="openChat(friend)"
-            style="cursor: pointer; padding: 4px; border-radius: 4px; margin-bottom: 4px; background: #f0f0f0;">
-          {{ friend.name }} <small>({{ friend.role || 'user' }})</small>
-        </li>
-        <li *ngIf="!friends.length">
-          <i>No friends yet.</i>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
+  <div class="friends-sidebar">
+    <div class="friends-list">
+      <h3>Your Friends</h3>
+      <ul class="friends-ul">
+        <ng-container *ngIf="friends$ | async as friends">
+          <li *ngFor="let friend of friends"
+              (click)="openChat(friend)"
+              class="friend-item">
+            {{ friend.name }} <small>({{ friend.role || 'user' }})</small>
+          </li>
+          <li *ngIf="!friends.length" class="empty-state">
+            <i>No friends yet.</i>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
 
-  <!-- Chat Box -->
-  <div class="chat-wrapper" style="flex: 1;">
-    <h2>Chat</h2>
-    <div #talkjsContainer style="width: 100%; height: 600px; border: 1px solid #ccc; border-radius: 8px;">
-      <i *ngIf="!chatbox">Select a friend to start chatting...</i>
+    <!-- Moved notifications to proper location within sidebar -->
+    <div class="notifications-section">
+      <h3>Notifications</h3>
+      <ul class="notifications-ul">
+        <ng-container *ngIf="pendingRequests$ | async as requests">
+          <li *ngFor="let req of requests" class="notification-item">
+            <strong>{{ req.name }}</strong> ({{ req.role }}) sent you a friend request.
+            <div class="notification-actions">
+              <button (click)="acceptRequest(req)" class="accept-btn">✅ Accept</button>
+              <button (click)="rejectRequest(req)" class="reject-btn">❌ Reject</button>
+            </div>
+          </li>
+          <li *ngIf="!requests.length" class="empty-state">
+            <i>No pending requests</i>
+          </li>
+        </ng-container>
+      </ul>
     </div>
   </div>
 
+  <!-- Chat Box -->
+  <div class="chat-wrapper">
+    <h2>Chat</h2>
+    <div #talkjsContainer class="chat-container">
+      <i *ngIf="!chatbox" class="chat-placeholder">Select a friend to start chatting...</i>
+    </div>
+  </div>
 </div>

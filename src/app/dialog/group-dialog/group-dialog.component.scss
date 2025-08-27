@@ -1,3 +1,192 @@
+// Group Dialog Component Styling - Gym Theme with Black Text
+// Dark gradient background with orange/blue accents
+
+:host {
+  display: block;
+}
+
+// Dialog container styling
+.mat-mdc-dialog-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+  0 0 20px rgba(255, 107, 53, 0.1);
+  backdrop-filter: blur(10px);
+  color: #000000; // Changed to black
+}
+
+// Dialog title styling
+.mat-mdc-dialog-title {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+// Dialog content styling
+.mat-mdc-dialog-content {
+  padding: 0 24px 24px;
+  max-height: none;
+  color: #000000; // Changed to black
+}
+
+// Form styling
 .group-form {
-  margin-top: 16px; // pushes form down a bit
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+  margin-top: 16px;
+
+  // Form field styling
+  .mat-mdc-form-field {
+    width: 100%;
+
+    // Outline styling
+    .mat-mdc-text-field-wrapper {
+      background: rgba(45, 45, 45, 0.8);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: rgba(255, 107, 53, 0.3);
+        box-shadow: 0 0 10px rgba(255, 107, 53, 0.1);
+      }
+    }
+
+    // Focused state
+    &.mat-focused {
+      .mat-mdc-text-field-wrapper {
+        border-color: #ff6b35;
+        box-shadow: 0 0 15px rgba(255, 107, 53, 0.2);
+      }
+
+      .mat-mdc-floating-label {
+        color: #ff6b35 !important;
+      }
+    }
+
+    // Label styling
+    .mat-mdc-floating-label {
+      color: #000000 !important; // Changed to black
+      font-weight: 500;
+    }
+
+    // Input styling
+    .mat-mdc-input-element {
+      color: #000000 !important; // Changed to black
+      font-weight: 400;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important; // Changed to black with opacity
+      }
+    }
+
+    // Hint text styling
+    .mat-mdc-form-field-hint {
+      color: #000000 !important; // Changed to black
+      font-size: 0.875rem;
+    }
+
+    // Error styling
+    .mat-mdc-form-field-error {
+      color: #ff4444 !important; // Keep error red for visibility
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Dialog actions styling
+.mat-mdc-dialog-actions {
+  padding: 16px 24px 24px;
+  justify-content: flex-end;
+  gap: 12px;
+  color: #000000; // Changed to black
+
+  // Cancel button styling
+  .mat-mdc-button {
+    color: #000000 !important; // Changed to black
+    border: 1px solid rgba(0, 0, 0, 0.2); // Changed to black
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1); // Changed to black
+      border-color: rgba(0, 0, 0, 0.3); // Changed to black
+      color: #000000 !important; // Changed to black
+    }
+  }
+
+  // Create button styling
+  .mat-mdc-raised-button {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: #000000 !important; // Changed to black
+    border: none;
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    transition: all 0.3s ease;
+
+    &:hover:not([disabled]) {
+      background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+      box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+      transform: translateY(-2px);
+      color: #000000 !important; // Changed to black
+    }
+
+    &:disabled {
+      background: rgba(0, 0, 0, 0.1); // Changed to black
+      color: rgba(0, 0, 0, 0.4) !important; // Changed to black
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .group-form {
+    min-width: 280px;
+  }
+
+  .mat-mdc-dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .mat-mdc-dialog-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+
+    .mat-mdc-button,
+    .mat-mdc-raised-button {
+      width: 100%;
+    }
+  }
+}
+
+// Animation for dialog appearance
+:host {
+  animation: dialogSlideIn 0.3s ease-out;
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }

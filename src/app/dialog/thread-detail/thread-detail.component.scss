@@ -1,25 +1,299 @@
-/* thread-detail.component.scss */
+// Thread Detail Component Styles - Clean Gym Tracker Theme
+:host {
+  display: block;
+  padding: 16px;
+  background: #1a1a1a;
+  min-height: 100%;
+}
+
 .thread-detail-card {
-  margin-bottom: 20px;
+  background: #2d2d2d;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  margin-bottom: 24px;
+  border: 1px solid #404040;
+
+  .mat-mdc-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #404040;
+
+    .mat-mdc-card-title {
+      color: #ffffff;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: 24px;
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 1rem;
+
+    p {
+      margin: 0;
+      color: #e0e0e0;
+    }
+  }
+}
+
+.mat-divider {
+  border-color: #404040;
+  margin: 20px 0;
 }
 
 .comments-section {
-  margin-top: 20px;
-}
+  margin: 24px 0;
 
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-}
+  h4 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 3px solid #ff6b35;
+  }
 
-.comment-input {
-  width: 100%;
+  .mat-mdc-list {
+    background: transparent;
+    padding: 0;
+
+    .mat-mdc-list-item {
+      background: #2d2d2d;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 16px;
+      border: 1px solid #404040;
+      height: auto !important;
+      min-height: 80px;
+
+      &:hover {
+        background: #333333;
+        border-color: #ff6b35;
+      }
+
+      .mdc-list-item__content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        strong {
+          color: #ff6b35;
+          font-weight: 600;
+          font-size: 0.95rem;
+        }
+
+        .timestamp {
+          color: #888888;
+          font-size: 0.8rem;
+        }
+      }
+
+      p {
+        color: #e0e0e0;
+        margin: 0;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  > p {
+    color: #888888;
+    text-align: center;
+    font-style: italic;
+    padding: 20px;
+    background: #2d2d2d;
+    border-radius: 8px;
+    border: 1px dashed #404040;
+    margin: 0;
+  }
 }
 
 .add-comment {
-  margin-top: 15px;
+  background: #2d2d2d;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #404040;
+  margin-top: 24px;
+
+  .comment-input {
+    width: 100%;
+    margin-bottom: 16px;
+
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+
+    textarea {
+      color: #ffffff;
+      background: transparent;
+      resize: vertical;
+      min-height: 80px;
+      font-size: 0.95rem;
+
+      &::placeholder {
+        color: #888888;
+      }
+    }
+  }
+
+  button {
+    background: #ff6b35;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: #ff8c42;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      background: #666666;
+      color: #999999;
+      cursor: not-allowed;
+    }
+  }
+}
+:host ::ng-deep {
+  .white-label .mat-mdc-form-field-label {
+    color: #ffffff !important;
+  }
+
+  .white-label.mat-mdc-form-field-focused .mat-mdc-form-field-label {
+    color: #ff6b35 !important;
+  }
+}
+
+// Material overrides
+:host ::ng-deep {
+  // White label specific styling
+  .mat-mdc-form-field.white-label {
+    .mat-mdc-form-field-label {
+      color: #ffffff !important;
+    }
+
+    &.mat-mdc-form-field-focused {
+      .mat-mdc-form-field-label {
+        color: #ff6b35 !important;
+      }
+    }
+  }
+
+  // Form field styling for comment input
+  .mat-mdc-form-field.comment-input {
+    .mdc-text-field {
+      background: transparent !important;
+      border-radius: 6px;
+    }
+
+    .mdc-text-field--outlined {
+      .mdc-notched-outline {
+        border-color: #555555;
+
+        &__leading,
+        &__notch,
+        &__trailing {
+          border-color: #555555;
+        }
+      }
+
+      &.mdc-text-field--focused {
+        .mdc-notched-outline {
+          border-color: #ff6b35;
+
+          &__leading,
+          &__notch,
+          &__trailing {
+            border-color: #ff6b35;
+          }
+        }
+      }
+    }
+
+    .mat-mdc-form-field-input-control {
+      color: #ffffff;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  :host {
+    padding: 12px;
+  }
+
+  .thread-detail-card {
+    margin-bottom: 16px;
+
+    .mat-mdc-card-header {
+      padding: 16px 20px;
+
+      .mat-mdc-card-title {
+        font-size: 1.2rem;
+      }
+    }
+
+    .mat-mdc-card-content {
+      padding: 20px;
+    }
+  }
+
+  .comments-section {
+    margin: 20px 0;
+
+    .mat-mdc-list-item {
+      padding: 12px;
+
+      .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .add-comment {
+    padding: 16px;
+    margin-top: 20px;
+
+    button {
+      width: 100%;
+      padding: 12px;
+    }
+  }
+}
+
+// Loading states
+.loading {
   display: flex;
-  gap: 10px;
-  align-items: flex-end;
+  justify-content: center;
+  padding: 40px;
+  color: #888888;
+}
+
+.error {
+  color: #ff5252;
+  text-align: center;
+  padding: 20px;
+  background: #2d2d2d;
+  border-radius: 8px;
+  border: 1px solid #ff5252;
+  margin: 20px 0;
 }

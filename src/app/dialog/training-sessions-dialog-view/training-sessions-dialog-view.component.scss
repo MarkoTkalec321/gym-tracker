@@ -1,0 +1,204 @@
+// Training Sessions Dialog Styling - Gym Theme
+// Light background with black text and orange/blue accents
+
+// Dialog container styling
+::ng-deep .mat-mdc-dialog-container {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  overflow: hidden;
+}
+
+// Dialog title styling
+.mat-mdc-dialog-title {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding: 24px 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+// Dialog content styling
+.mat-mdc-dialog-content {
+  padding: 0 24px 16px;
+  color: #000000;
+  max-height: 500px;
+  overflow-y: auto;
+
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    border-radius: 4px;
+  }
+}
+
+// Empty state styling
+.mat-mdc-dialog-content > div:first-child {
+  color: #6c757d;
+  font-size: 1.1rem;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 107, 53, 0.5);
+  text-align: center;
+  margin: 24px 0;
+}
+
+// List styling
+::ng-deep .mat-mdc-list {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+// List item styling
+::ng-deep .mat-mdc-list-item {
+  background: #ffffff;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px;
+
+  &:hover {
+    background: rgba(255, 107, 53, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  }
+
+  &:nth-child(even) {
+    background: rgba(0, 0, 0, 0.03);
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.15);
+    }
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// Flex container for list items
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: #000000;
+
+  strong {
+    color: #000000;
+    font-weight: 600;
+  }
+}
+
+// Delete button styling
+::ng-deep .mat-mdc-raised-button.mat-warn {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Dialog actions styling
+.mat-mdc-dialog-actions {
+  padding: 16px 24px 24px;
+  justify-content: flex-end;
+  background: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  .mat-mdc-button {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000000;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.2);
+      border-color: rgba(255, 107, 53, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  ::ng-deep .mat-mdc-dialog-container {
+    margin: 16px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .mat-mdc-dialog-title {
+    font-size: 1.3rem;
+    padding: 20px 16px 12px;
+  }
+
+  .mat-mdc-dialog-content {
+    padding: 0 16px 12px;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 12px 16px 20px;
+  }
+
+  // Adjust layout for mobile
+  .flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    ::ng-deep .mat-mdc-raised-button {
+      align-self: flex-end;
+    }
+  }
+}
+
+// Animation for dialog entrance
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  animation: dialogSlideIn 0.3s ease-out;
+}

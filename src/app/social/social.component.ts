@@ -16,6 +16,7 @@ export class SocialComponent implements OnInit, OnDestroy {
 
   // Make friends reactive
   public friends$ = new BehaviorSubject<any[]>([]);
+  public pendingRequests$ = new BehaviorSubject<any[]>([]);
 
   @ViewChild('talkjsContainer', { static: true }) talkjsContainer!: ElementRef;
 
@@ -53,6 +54,9 @@ export class SocialComponent implements OnInit, OnDestroy {
 
     // Update the reactive subject
     this.friends$.next(friendProfiles);
+
+    const pending = await this.supabaseService.getPendingFriendRequests(authUser.id);
+    this.pendingRequests$.next(pending);
   }
 
   openChat(friend: any) {
@@ -75,6 +79,44 @@ export class SocialComponent implements OnInit, OnDestroy {
     this.chatbox.select(conversation);
     this.chatbox.mount(this.talkjsContainer.nativeElement);
   }
+
+  async acceptRequest(req: any) {
+    try {
+      await this.supabaseService.acceptFriendRequest(req.id);
+
+      // Remove from pending list
+      const updated = this.pendingRequests$.value.filter(r => r.id !== req.id);
+      this.pendingRequests$.next(updated);
+
+      // Optionally refresh friends list (since they’re now accepted)
+      const authUser = await this.authService.getUser();
+      if (!authUser) {
+        console.error("No user logged in");
+        return;
+      }
+
+      const friendIds = await this.supabaseService.getFriends(authUser.id);
+      const friendProfiles = await this.supabaseService.getFriendProfiles(friendIds);
+      this.friends$.next(friendProfiles);
+
+    } catch (err) {
+      console.error("Failed to accept request", err);
+    }
+  }
+
+  async rejectRequest(req: any) {
+    try {
+      await this.supabaseService.rejectFriendRequest(req.id);
+
+      // Just remove from pending list
+      const updated = this.pendingRequests$.value.filter(r => r.id !== req.id);
+      this.pendingRequests$.next(updated);
+
+    } catch (err) {
+      console.error("Failed to reject request", err);
+    }
+  }
+
 
   ngOnDestroy() {
     if (this.session) this.session.destroy();

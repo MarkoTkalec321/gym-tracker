@@ -1,5 +1,5 @@
 <div class="forum-container mat-elevation-z2">
-  <!-- Groups -->
+  <!-- Groups section -->
   <mat-nav-list class="groups">
     <h3 mat-subheader>Groups</h3>
     <ng-container *ngIf="groups$ | async as groups">
@@ -16,7 +16,7 @@
     </ng-container>
   </mat-nav-list>
 
-  <!-- Threads -->
+  <!-- Threads section -->
   <div class="threads">
     <h3>Threads</h3>
 
@@ -31,30 +31,34 @@
       <ng-container *ngIf="threads$ | async as threads">
         <p *ngIf="threads.length === 0">No threads in this group.</p>
 
-        <mat-card *ngFor="let thread of threads" class="thread-card" (click)="openThreadDialog(thread)">
-          <mat-card-header>
-            <mat-card-title>{{ thread.title }}</mat-card-title>
-            <mat-card-subtitle>
-              {{ thread.author_name }} {{ thread.author_last_name }} ({{ thread.author_role }}) •
-              {{ thread.created_at | date:'short' }}
-            </mat-card-subtitle>
-            <app-thread-delete-dialog
-              [threadId]="thread.id"
-              (deleted)="onThreadDeleted($event)"
-            ></app-thread-delete-dialog>
-
+        <!-- Thread cards with delete component -->
+        <mat-card *ngFor="let thread of threads" class="thread-card">
+          <mat-card-header class="thread-header">
+            <div class="thread-info">
+              <mat-card-title>{{ thread.title }}</mat-card-title>
+              <mat-card-subtitle>
+                {{ thread.author_name }} {{ thread.author_last_name }} ({{ thread.author_role }}) •
+                {{ thread.created_at | date:'short' }}
+              </mat-card-subtitle>
+            </div>
+            <div class="thread-actions">
+              <!-- Use the thread delete dialog component -->
+              <app-thread-delete-dialog
+                [threadId]="thread.id"
+                (deleted)="onThreadDeleted($event)">
+              </app-thread-delete-dialog>
+            </div>
           </mat-card-header>
-          <mat-card-content>
+          <mat-card-content (click)="openThreadDialog(thread)">
             <p>{{ thread.content }}</p>
           </mat-card-content>
         </mat-card>
-
       </ng-container>
     </ng-container>
     <p *ngIf="!(selectedGroup$ | async)">Select a group to see threads.</p>
   </div>
 
-  <!-- Members -->
+  <!-- Members section -->
   <mat-nav-list class="members">
     <h3 mat-subheader>Members</h3>
     <ng-container *ngIf="selectedGroup$ | async as group">
@@ -84,5 +88,4 @@
       </button>
     </ng-container>
   </mat-menu>
-
 </div>

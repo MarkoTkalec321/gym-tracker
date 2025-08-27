@@ -1,10 +1,311 @@
+// Gym Tracker Theme Variables
+$primary-dark: #1a1a1a;
+$primary-light: #2d2d2d;
+$accent-orange: #ff6b35;
+$accent-blue: #00bcd4;
+$success-green: #4caf50;
+$warning-yellow: #ffc107;
+$danger-red: #f44336;
+$text-primary: #ffffff;
+$text-secondary: #b0b0b0;
+$shadow-dark: rgba(0, 0, 0, 0.3);
+$shadow-light: rgba(255, 255, 255, 0.1);
+
+// Dashboard Header Styling
 .dashboard-header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  background: linear-gradient(135deg, $primary-dark 0%, $primary-light 100%);
+  box-shadow: 0 4px 20px $shadow-dark;
+  border-bottom: 2px solid $accent-orange;
+  min-height: 80px;
+  padding: 0 24px;
+
+  .toolbar-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .brand-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .brand-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: $accent-orange;
+      transform: rotate(-15deg);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: rotate(0deg) scale(1.1);
+      }
+    }
+
+    .brand-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: $text-primary;
+      letter-spacing: -0.5px;
+      text-shadow: 2px 2px 4px $shadow-dark;
+    }
+
+    .brand-subtitle {
+      font-size: 16px;
+      font-weight: 300;
+      color: $text-secondary;
+      margin-left: -8px;
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .auth-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+
+      .membership-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-shadow: 1px 1px 2px $shadow-dark;
+
+        &.membership-pro {
+          background: linear-gradient(45deg, $accent-blue, lighten($accent-blue, 10%));
+          color: white;
+        }
+
+        &.membership-elite {
+          background: linear-gradient(45deg, $accent-orange, lighten($accent-orange, 10%));
+          color: white;
+        }
+
+        &.membership-premium {
+          background: linear-gradient(45deg, $warning-yellow, lighten($warning-yellow, 10%));
+          color: $primary-dark;
+        }
+      }
+    }
+
+    .auth-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 25px;
+      padding: 0 20px;
+      height: 45px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px $shadow-dark;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px $shadow-dark;
+      }
+
+      &.login-btn {
+        background: linear-gradient(45deg, $accent-orange, lighten($accent-orange, 10%));
+
+        &:hover {
+          background: linear-gradient(45deg, lighten($accent-orange, 5%), lighten($accent-orange, 15%));
+        }
+      }
+
+      &.register-btn {
+        border: 2px solid $accent-blue;
+        color: $accent-blue;
+
+        &:hover {
+          background: $accent-blue;
+          color: white;
+        }
+      }
+
+      &.logout-btn {
+        background: linear-gradient(45deg, $danger-red, lighten($danger-red, 10%));
+
+        &:hover {
+          background: linear-gradient(45deg, lighten($danger-red, 5%), lighten($danger-red, 15%));
+        }
+      }
+    }
+  }
 }
 
-.spacer {
-  flex: 1 1 auto;
+// Main Tabs Styling
+.main-tabs {
+  background: $primary-light;
+  box-shadow: 0 2px 10px $shadow-dark;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ✅ Force the actual MDC label to white/orange */
+:host ::ng-deep .main-tabs .mat-mdc-tab .mdc-tab__content .mdc-tab__text-label {
+  color: $text-primary !important; // inactive: white
+}
+
+:host ::ng-deep .main-tabs .mat-mdc-tab.mdc-tab--active .mdc-tab__content .mdc-tab__text-label {
+  color: $accent-orange !important; // active: orange
+}
+
+/* ✅ Since you have a custom <span class="tab-label">, make that win too */
+:host ::ng-deep .main-tabs .tab-label {
+  color: $text-primary !important;
+}
+
+:host ::ng-deep .main-tabs .mat-mdc-tab.mdc-tab--active .tab-label {
+  color: $accent-orange !important;
+}
+
+/* Optional hover effect */
+:host ::ng-deep .main-tabs .mat-mdc-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+
+
+// Main Content Area
+.main-content {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  min-height: calc(100vh - 140px);
+  padding: 24px;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 0 16px;
+    min-height: 70px;
+
+    .brand-section {
+      .brand-title {
+        font-size: 24px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+    }
+
+    .auth-section {
+      gap: 8px;
+
+      .auth-btn {
+        padding: 0 16px;
+        height: 40px;
+        font-size: 14px;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .user-info .membership-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+  }
+
+  .main-tabs {
+    ::ng-deep {
+      .mat-mdc-tab-group .mat-mdc-tab-header .mat-mdc-tab-labels .mat-mdc-tab {
+        min-width: 80px;
+        height: 50px;
+
+        .tab-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+        }
+
+        .tab-label {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    .brand-section {
+      .brand-title {
+        font-size: 20px;
+      }
+    }
+
+    .auth-section .auth-btn {
+      span:not(.mat-icon) {
+        display: none;
+      }
+
+      padding: 0 12px;
+      min-width: 40px;
+    }
+  }
+}
+
+// Animation Classes
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Custom Scrollbar for Webkit browsers
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $primary-light;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $accent-orange;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: lighten($accent-orange, 10%);
 }

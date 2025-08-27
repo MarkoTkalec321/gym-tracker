@@ -1,19 +1,18 @@
 // home.component.ts
 import { Component, OnInit } from '@angular/core';
-import {ExerciseService} from "../service/exercise.service";
-import {Exercise} from "../model/excercise.model";
-import {SupabaseService} from "../service/supabase.service";
-import {ToastService} from "../service/toast.service";
+import { ExerciseService } from "../service/exercise.service";
+import { Exercise } from "../model/excercise.model";
+import { SupabaseService } from "../service/supabase.service";
+import { ToastService } from "../service/toast.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-// home.component.ts
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
-  filteredExercises: Exercise[] = [];
+  filteredExercises: (Exercise & { uniqueId: string; isExpanded: boolean })[] = [];
 
   types: string[] = [];
   muscles: string[] = [];
@@ -24,17 +23,23 @@ export class HomeComponent implements OnInit {
   selectedMuscle = '';
   selectedEquipment = '';
   selectedDifficulty = '';
-  searchTerm = ''; // <-- new
+  searchTerm = '';
 
-  constructor(private exerciseService: ExerciseService,
-              private supabaseService: SupabaseService,
-              private toast: ToastService
-              ) {}
+  constructor(
+    private exerciseService: ExerciseService,
+    private supabaseService: SupabaseService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.exerciseService.getExercises().subscribe(data => {
       this.exercises = data;
-      this.filteredExercises = [...data];
+      // Add uniqueId and isExpanded properties
+      this.filteredExercises = data.map((ex, index) => ({
+        ...ex,
+        uniqueId: ex.id?.toString() || `${ex.name}-${index}`,
+        isExpanded: false
+      }));
 
       this.types = Array.from(new Set(data.map(e => e.type)));
       this.muscles = Array.from(new Set(data.map(e => e.muscle)));
@@ -45,13 +50,42 @@ export class HomeComponent implements OnInit {
 
   filterExercises(): void {
     const term = this.searchTerm.toLowerCase();
-    this.filteredExercises = this.exercises.filter(e =>
+    const filtered = this.exercises.filter(e =>
       (this.selectedType ? e.type === this.selectedType : true) &&
       (this.selectedMuscle ? e.muscle === this.selectedMuscle : true) &&
       (this.selectedEquipment ? e.equipment === this.selectedEquipment : true) &&
       (this.selectedDifficulty ? e.difficulty === this.selectedDifficulty : true) &&
-      (term ? e.name.toLowerCase().includes(term) : true) // <-- filter by name
+      (term ? e.name.toLowerCase().includes(term) : true)
     );
+
+    // Preserve expanded states when filtering
+    this.filteredExercises = filtered.map((ex, index) => {
+      const existingExercise = this.filteredExercises.find(fex =>
+        fex.uniqueId === (ex.id?.toString() || `${ex.name}-${index}`)
+      );
+
+      return {
+        ...ex,
+        uniqueId: ex.id?.toString() || `${ex.name}-${index}`,
+        isExpanded: existingExercise ? existingExercise.isExpanded : false
+      };
+    });
+  }
+
+  trackByExerciseId(index: number, exercise: any): string {
+    return exercise.uniqueId;
+  }
+
+  toggleInstructions(exercise: Exercise & { uniqueId: string; isExpanded: boolean }) {
+    // Close all other exercises
+    this.filteredExercises.forEach(ex => {
+      if (ex.uniqueId !== exercise.uniqueId) {
+        ex.isExpanded = false;
+      }
+    });
+
+    // Toggle the clicked exercise
+    exercise.isExpanded = !exercise.isExpanded;
   }
 
   async addToFavorites(exercise: Exercise): Promise<void> {
@@ -69,13 +103,4 @@ export class HomeComponent implements OnInit {
 
     this.toast.showSuccess(`${exercise.name} added to favorites`);
   }
-
-  expandedExerciseId: string | null = null;
-
-  toggleInstructions(exercise: Exercise) {
-    this.expandedExerciseId = this.expandedExerciseId === exercise.id ? null : exercise.id;
-  }
-
-
 }
-

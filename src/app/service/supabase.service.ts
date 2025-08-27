@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {environment} from "../config/environment";
-import {BehaviorSubject, from, map} from "rxjs";
+import {BehaviorSubject, from, map, Observable} from "rxjs";
 import {TrainingSession} from "../model/training-session.model";
 import {Thread} from "../model/thread.model";
 
@@ -463,6 +463,120 @@ export class SupabaseService {
       .insert(rows);
 
     if (error) throw error;
+    return data;
+  }
+
+  getFavorites(userId: string): Observable<any> {
+    return from(
+      this.supabase.from('favorites').select('*').eq('user_id', userId)
+    );
+  }
+
+  removeFavorite(userId: string, exercise_name: string): Observable<any> {
+    return from(
+      this.supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', userId)
+        .eq('exercise_name', exercise_name)
+    );
+  }
+
+  async getPendingFriendRequests(userId: string) {
+    console.log('Fetching pending requests for user ID:', userId);
+
+    const { data, error } = await this.supabase
+      .rpc('get_pending_friend_requests', { user_id: userId });
+
+    if (error) {
+      console.error('Error fetching pending requests:', error);
+      throw error;
+    }
+
+    console.log('Raw data from pending requests:', data);
+
+    // Get all requester IDs
+    const requesterIds = (data || []).map((f: any) => f.requester_id);
+
+    if (requesterIds.length === 0) {
+      return [];
+    }
+
+    // Get profiles for all requesters in a single query
+    const { data: profiles, error: profileError } = await this.supabase
+      .from('profiles_unified')
+      .select('user_id, first_name, last_name, role')
+      .in('user_id', requesterIds);
+
+    if (profileError) {
+      console.error('Error fetching profiles:', profileError);
+      // Fallback: return requests without profile info
+      return (data || []).map((f: any) => ({
+        id: f.id,
+        requester_id: f.requester_id,
+        status: f.status,
+        name: 'Unknown User',
+        role: 'user'
+      }));
+    }
+
+    // Create a map of user_id to profile
+    const profileMap = new Map();
+    profiles.forEach(profile => {
+      profileMap.set(profile.user_id, {
+        name: `${profile.first_name} ${profile.last_name}`,
+        role: profile.role || 'user'
+      });
+    });
+
+    // Combine friendship data with profile data
+    const requestsWithProfiles = (data || []).map((f: any) => {
+      const profile = profileMap.get(f.requester_id);
+      return {
+        id: f.id,
+        requester_id: f.requester_id,
+        status: f.status,
+        name: profile?.name || 'Unknown User',
+        role: profile?.role || 'user'
+      };
+    });
+
+    console.log('Requests with profiles:', requestsWithProfiles);
+
+    return requestsWithProfiles;
+  }
+
+
+
+  // Accept a friend request
+  async acceptFriendRequest(requestId: string) {
+    const { data, error } = await this.supabase
+      .from('friendships')
+      .update({ status: 'accepted', updated_at: new Date().toISOString() })
+      .eq('id', requestId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error accepting request:', error);
+      throw error;
+    }
+    return data;
+  }
+
+// Reject a friend request
+  async rejectFriendRequest(requestId: string) {
+    const { data, error } = await this.supabase
+      .from('friendships')
+      .update({ status: 'rejected', updated_at: new Date().toISOString() })
+      .eq('id', requestId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error rejecting request:', error);
+      throw error;
+    }
     return data;
   }
 

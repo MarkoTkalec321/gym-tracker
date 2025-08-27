@@ -23,11 +23,11 @@ const routes: Routes = [
     children: [
       { path: 'welcome', component: WelcomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'profile', component: ProfileComponent },
       { path: 'coach', component: CoachComponent },
       { path: 'forum', component: ForumComponent },
       { path: 'social', component: SocialComponent },
       { path: 'admin', component: AdminComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
     ],
   },

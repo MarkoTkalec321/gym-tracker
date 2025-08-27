@@ -1,0 +1,386 @@
+// Coach Component Styling - Gym Theme
+// Variables for consistent theming
+$primary-dark: #1a1a1a;
+$secondary-dark: #2d2d2d;
+$accent-orange: #ff6b35;
+$accent-blue: #4a9eff;
+$text-primary: #ffffff;
+$text-secondary: #b0b0b0;
+$success-green: #4caf50;
+$warning-orange: #ff9800;
+$card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+$hover-shadow: 0 12px 48px rgba(255, 107, 53, 0.2);
+
+.coach-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg,
+    $primary-dark 0%,
+    #252525 25%,
+    $secondary-dark 50%,
+    #1f1f1f 75%,
+    $primary-dark 100%);
+  padding: 24px;
+  color: $text-primary;
+  width: 75%; // ← ADD THIS LINE
+  margin: 0 auto; // ← ADD THIS LINE to center it
+  box-sizing: border-box;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, $accent-orange, $accent-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: $text-primary;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: $accent-orange;
+  }
+}
+
+.coach-management-section {
+  margin-bottom: 48px;
+  padding: 32px;
+  background: linear-gradient(135deg,
+    rgba(45, 45, 45, 0.9) 0%,
+    rgba(35, 35, 35, 0.9) 100%);
+  border-radius: 16px;
+  box-shadow: $card-shadow;
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    border-color: rgba(255, 107, 53, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.management-card {
+  background: linear-gradient(135deg,
+    rgba(26, 26, 26, 0.8) 0%,
+    rgba(45, 45, 45, 0.8) 100%);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(74, 158, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(74, 158, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  button {
+    background: linear-gradient(135deg, $accent-orange, #ff8a5c);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-right: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, #ff8a5c, $accent-orange);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.groups-section {
+  margin-top: 32px;
+
+  h3 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.group-card {
+  background: linear-gradient(135deg,
+    rgba(26, 26, 26, 0.9) 0%,
+    rgba(35, 35, 35, 0.9) 100%);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $accent-orange, $accent-blue);
+  }
+
+  &:hover {
+    border-color: rgba(255, 107, 53, 0.4);
+    box-shadow: 0 8px 32px rgba(255, 107, 53, 0.2);
+    transform: translateY(-2px);
+  }
+
+  p {
+    color: $text-secondary;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+}
+
+.group-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  button {
+    background: linear-gradient(135deg, $accent-blue, #6bb6ff);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(74, 158, 255, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, #6bb6ff, $accent-blue);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(74, 158, 255, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.calendar-section {
+  // ... existing styles ...
+
+  // FullCalendar styling
+  ::ng-deep {
+    .fc {
+      // ... existing styles ...
+
+      .fc-event {
+        background: linear-gradient(135deg, $accent-blue, #6bb6ff);
+        border: none;
+        border-radius: 8px;
+        padding: 8px;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+        border-left: 4px solid $accent-orange;
+
+        // Custom event content styling
+        .custom-event {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          line-height: 1.4;
+          padding: 4px;
+
+          .event-group {
+            font-size: 1.1rem; // Increased from ~0.9rem
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+          }
+
+          .event-time {
+            font-size: 0.95rem; // Increased from ~0.75rem
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 2px 0;
+          }
+
+          .event-details {
+            font-size: 1rem; // Increased from ~0.8rem
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.3;
+            font-weight: 500;
+          }
+
+          .event-location {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-top: 2px;
+          }
+        }
+
+        &:hover {
+          background: linear-gradient(135deg, #6bb6ff, $accent-blue);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(74, 158, 255, 0.4);
+
+          .custom-event {
+            .event-group {
+              color: #ffeb3b;
+            }
+
+            .event-time {
+              background: rgba(0, 0, 0, 0.5);
+            }
+          }
+        }
+      }
+
+      // Adjust event height and spacing
+      .fc-daygrid-event {
+        margin-bottom: 4px;
+        min-height: 70px;
+      }
+
+      .fc-event-main {
+        padding: 0;
+      }
+
+      // Month view specific styling
+      .fc-daygrid-month-view {
+        .fc-event {
+          min-height: 80px;
+        }
+      }
+
+      // Week view specific styling
+      .fc-timegrid-event {
+        .custom-event {
+          padding: 6px;
+
+          .event-group {
+            font-size: 1rem;
+          }
+
+          .event-time {
+            font-size: 0.85rem;
+          }
+
+          .event-details {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .coach-container {
+    padding: 16px;
+  }
+
+  .coach-management-section,
+  .calendar-section {
+    ::ng-deep {
+      .fc {
+        .fc-event {
+          .custom-event {
+            .event-group {
+              font-size: 1rem;
+            }
+
+            .event-time {
+              font-size: 0.85rem;
+            }
+
+            .event-details {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .management-card {
+    padding: 16px;
+  }
+
+  .group-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
+  .management-card button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .coach-container {
+    padding: 12px;
+  }
+
+  .coach-management-section,
+  .calendar-section {
+    padding: 16px;
+  }
+
+  .group-card {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+}

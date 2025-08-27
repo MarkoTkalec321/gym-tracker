@@ -1,14 +1,124 @@
-<!-- Existing membership info -->
-<div *ngIf="membership">
-  <p><strong>Membership Type:</strong> {{ membership.type }}</p>
-  <p><strong>Active:</strong> {{ membership.is_active ? 'Yes' : 'No' }}</p>
-  <p><strong>Start Date:</strong> {{ membership.start_date | date:'medium' }}</p>
-  <p><strong>End Date:</strong> {{ membership.end_date | date:'medium' }}</p>
-  <p><strong>Price:</strong> ${{ membership.price }}</p>
+<div class="profile-container" *ngIf="membership">
+  <!-- User Profile Section - ADD THIS NEW SECTION -->
+  <div class="profile-section" *ngIf="userProfile">
+    <h2 class="section-title">User Profile</h2>
+    <mat-card class="profile-card">
+      <mat-card-content>
+        <div class="profile-details">
+          <div class="detail-item">
+            <span class="detail-label">Name:</span>
+            <span class="detail-value">{{ userProfile.name }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Role:</span>
+            <span class="detail-value role-badge" [class]="userProfile.role">{{ userProfile.role }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-  <!-- Downgrade scheduled -->
-  <p *ngIf="membership.cancel_scheduled || (membership.scheduled_plan && membership.scheduled_plan !== membership.type)">
-    Downgrade scheduled – access until {{ membership.end_date | date:'medium' }}.
-    Scheduled plan: {{ membership.scheduled_plan }}
-  </p>
+  <!-- Membership Details Section -->
+  <div class="membership-section">
+    <h2 class="section-title">Membership Details</h2>
+    <mat-card class="membership-card">
+      <mat-card-header>
+        <mat-card-title class="membership-type">{{ membership.type }}</mat-card-title>
+        <div class="status-badge" [class.active]="membership.is_active" [class.inactive]="!membership.is_active">
+          {{ membership.is_active ? 'Active' : 'Inactive' }}
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="membership-details">
+          <div class="detail-item">
+            <span class="detail-label">Start Date:</span>
+            <span class="detail-value">{{ membership.start_date | date:'medium' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">End Date:</span>
+            <span class="detail-value">{{ membership.end_date | date:'medium' }}</span>
+          </div>
+          <div class="detail-item price-item">
+            <span class="detail-label">Price:</span>
+            <span class="detail-value price">${{ membership.price }}</span>
+          </div>
+        </div>
+
+        <!-- Enhanced downgrade message styling -->
+        <div class="downgrade-notice" *ngIf="membership.cancel_scheduled || (membership.scheduled_plan && membership.scheduled_plan !== membership.type)">
+          <mat-icon>warning</mat-icon>
+          <div class="notice-content">
+            <p>Downgrade scheduled – access until {{ membership.end_date | date:'medium' }}.</p>
+            <p><strong>Scheduled plan:</strong> {{ membership.scheduled_plan }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Enhanced favorite exercises section with proper heading -->
+  <div class="favorites-section">
+    <h2 class="section-title">Favorite Exercises</h2>
+
+    <!-- Empty state message -->
+    <div class="empty-state" *ngIf="favoriteExercises.length === 0">
+      <mat-icon>favorite_border</mat-icon>
+      <h3>No favorite exercises yet</h3>
+      <p>Start adding exercises to your favorites to see them here!</p>
+    </div>
+
+    <div class="exercises-grid">
+      <mat-card
+        *ngFor="let ex of favoriteExercises; trackBy: trackByExerciseId"
+        class="exercise-card"
+        [class.expanded]="ex.isExpanded">
+        <mat-card-header (click)="toggleInstructions(ex)" class="exercise-header">
+          <mat-card-title class="exercise-name">{{ ex.name }}</mat-card-title>
+          <mat-card-subtitle class="exercise-meta">{{ ex.type | titlecase }} - {{ ex.muscle | titlecase }}</mat-card-subtitle>
+          <mat-icon class="expand-icon">{{ ex.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </mat-card-header>
+
+        <mat-card-content class="exercise-content" *ngIf="ex.isExpanded">
+          <div class="exercise-details">
+            <div class="detail-row">
+              <span class="detail-label">Equipment:</span>
+              <span class="detail-value">{{ ex.equipment }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Difficulty:</span>
+              <span class="detail-value difficulty-badge" [attr.data-difficulty]="ex.difficulty">{{ ex.difficulty }}</span>
+            </div>
+            <div class="instructions">
+              <span class="detail-label">Instructions:</span>
+              <p class="instructions-text">{{ ex.instructions }}</p>
+            </div>
+
+            <!-- Remove from favorites button -->
+            <div class="action-buttons">
+              <button
+                mat-flat-button
+                color="warn"
+                class="remove-favorite-btn"
+                (click)="removeFromFavorites($event, ex)">
+                <mat-icon>favorite</mat-icon>
+                Remove from Favorites
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>
+
+<ng-template #confirmDialog let-data>
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">Cancel</button>
+    <button mat-flat-button color="warn" [mat-dialog-close]="true">Confirm</button>
+  </mat-dialog-actions>
+</ng-template>

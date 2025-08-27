@@ -1,13 +1,22 @@
+$primary-dark: #1a1a1a;
+$secondary-dark: #2d2d2d;
+$accent-orange: #ff6b35;
+$accent-blue: #00d4ff;
+$text-primary: #ffffff;
+$text-secondary: #b0b0b0;
+$success-green: #4caf50;
+
 .dashboard-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
+  color: $text-primary;
 }
 
 .dashboard-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .spacer {
@@ -16,68 +25,248 @@
 
 .welcome-section {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
+  padding: 32px 16px;
 
   h1 {
-    color: #333;
+    color: $text-primary;
     margin-bottom: 16px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, $accent-orange, $accent-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
-    color: #666;
+    color: $text-secondary;
     font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
   }
+}
+
+.pricing-section {
+  padding: 32px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .pricing-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 48px;
 
   h1 {
-    font-size: 2rem;
-    margin: 0;
+    font-size: 3rem;
+    margin: 0 0 16px 0;
+    font-weight: 800;
+    color: $text-primary;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   .subtitle {
-    color: #666;
+    color: $text-secondary;
+    font-size: 1.2rem;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  padding: 0 16px;
 }
 
 .plan-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: linear-gradient(145deg, $secondary-dark, #3a3a3a);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
 
-  .price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 12px 0;
-    text-align: center;
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 107, 53, 0.3);
   }
 
   &.highlight {
-    border: 2px solid var(--mat-primary-color, #3f51b5);
+    border: 2px solid $accent-orange;
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, $accent-orange, $accent-blue);
+    }
+
+    .mat-mdc-card-header {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.1));
+    }
+  }
+
+  .mat-mdc-card-header {
+    padding: 24px 24px 16px;
+    background: rgba(255, 255, 255, 0.02);
+
+    .mat-mdc-card-title {
+      color: $text-primary;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .mat-mdc-card-subtitle {
+      color: $accent-orange;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: 0 24px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price {
+    display: inline-block; // prevents clipping
+    line-height: 1.2;      // gives text enough breathing room
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 16px 0 24px;
+    text-align: center;
+    background: linear-gradient(45deg, $accent-orange, $accent-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+
+  .mat-mdc-divider {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 0 0 24px 0;
+  }
+
+  .subscribe-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+
+    .mat-mdc-raised-button {
+      padding: 12px 32px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      min-width: 160px;
+
+      &.mat-primary {
+        background: linear-gradient(45deg, $accent-orange, #ff8a65);
+        color: white;
+        border: none;
+
+        &:hover:not([disabled]) {
+          background: linear-gradient(45deg, #ff8a65, $accent-orange);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+      }
+
+      &[disabled] {
+        background: $success-green !important;
+        color: white !important;
+        opacity: 1;
+        cursor: not-allowed;
+      }
+    }
   }
 
   .features {
-    list-style: disc;
-    padding-left: 20px;
-    margin: 12px 0;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0 0;
+    flex-grow: 1;
+
+    li {
+      padding: 8px 0;
+      color: $text-secondary;
+      position: relative;
+      padding-left: 24px;
+      line-height: 1.5;
+
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: $accent-orange;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        color: $text-primary;
+      }
+    }
   }
 }
-.subscribe-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 16px 0;
+
+// Dialog styling
+.mat-mdc-dialog-container {
+  background: $secondary-dark;
+  color: $text-primary;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .mat-mdc-dialog-title {
+    color: $text-primary;
+    font-weight: 700;
+  }
+
+  .mat-mdc-dialog-content {
+    color: $text-secondary;
+  }
+
+  .mat-mdc-button {
+    &.mat-primary {
+      background: linear-gradient(45deg, $accent-orange, #ff8a65);
+      color: white;
+      border-radius: 20px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
+  .pricing-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .plan-card {
+    margin: 0 8px;
+  }
+
   .dashboard-content {
     padding: 16px;
   }
@@ -87,8 +276,21 @@
 
     button {
       width: 100%;
+      margin-bottom: 12px;
     }
   }
 }
 
+@media (max-width: 480px) {
+  .pricing-section {
+    padding: 16px 8px;
+  }
 
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+
+  .plan-card .price {
+    font-size: 2rem;
+  }
+}

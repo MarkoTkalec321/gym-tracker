@@ -19,4 +19,13 @@ export const MESSAGES = {
     title: 'Confirm Deletion',
     message: `Are you sure you want to remove ${clientName} from this group?`,
   }),
+  removeFavorite: (exerciseName: string) => ({
+    title: 'Confirm Removal',
+    message: `Are you sure you want to remove ${exerciseName} from your favorites?`
+  }),
+  deleteThread: {
+    title: 'Confirm Deletion',
+    message: 'Are you sure you want to delete this thread? This action cannot be undone.',
+    options: ['Delete', 'Cancel']
+  },
 };
